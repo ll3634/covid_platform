@@ -55,7 +55,7 @@ const getSetState = (data) => {
 }
 
 const getVenueInfo = () => async (dispatch) => {
-	const res = await axios.get(`${baseUrl}/venue/get`)
+	const res = await axios.get(`${baseUrl}/venue`)
 	if (res) {
 		const action = getSetState(res)
 		dispatch(action)

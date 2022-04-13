@@ -18,6 +18,8 @@ pika = "*"
 redis-py-cluster = "*"
 celery = "*"
 flask-socketio = "*"
+kombu = "*"
+flask-restful = "*"
 
 [dev-packages]
 

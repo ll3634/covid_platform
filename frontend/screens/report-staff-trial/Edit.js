@@ -57,7 +57,7 @@ Edit = (props) => {
 }
 
 const editVenue = (id, name, description) => async (dispatch) => {
-	const res = await axios.put(`${baseUrl}/venue/update/${id}`, {
+	const res = await axios.put(`${baseUrl}/venue/${id}`, {
 		name: name,
 		description: description
 	})

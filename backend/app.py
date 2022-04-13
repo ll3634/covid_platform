@@ -85,7 +85,7 @@ def connect():
 def sendMsg(information):
     socketio.emit('reciveMsg', information)
 
-app.register_blueprint(venue.blue, url_prefix='/venue')
+app.register_blueprint(venue.blue)
 app.register_blueprint(review.blue, url_prefix='/review')
 app.register_blueprint(user.blue, url_prefix='/user')
 app.register_blueprint(checkin.blue, url_prefix='/checkin')

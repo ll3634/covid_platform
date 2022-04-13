@@ -177,7 +177,7 @@ Create = (props) => {
 }
 
 const createVenue = (name, description, lat, lng, num) => async (dispatch) => {
-	const res = await axios.post(`${baseUrl}/venue/add`, {
+	const res = await axios.post(`${baseUrl}/venue`, {
 		name: name,
 		description: description,
 		latitude: lat,
@@ -216,7 +216,7 @@ const getSetVenue = (data) => {
 }
 
 const getVenueByID = (id) => async (dispatch) => {
-	const res = await axios.get(`${baseUrl}/venue/get/${id}`)
+	const res = await axios.get(`${baseUrl}/venue/${id}`)
 	if (res) {
 		const action = getSetVenue(res)
 		dispatch(action)

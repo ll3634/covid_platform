@@ -40,7 +40,7 @@ function Details (props) {
 }
 
 const deleteVenue = (id) => async (dispatch) => {
-	const res = await axios.delete(`${baseUrl}/venue/delete/${id}`)
+	const res = await axios.delete(`${baseUrl}/venue/${id}`)
 }
 
 const mapState = (state) => {

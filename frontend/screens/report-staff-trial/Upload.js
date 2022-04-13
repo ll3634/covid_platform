@@ -229,7 +229,7 @@ const getSetVenue = (data) => {
 }
 
 const getVenueByID = (id) => async (dispatch) => {
-	const res = await axios.get(`${baseUrl}/venue/get/${id}`)
+	const res = await axios.get(`${baseUrl}/venue/${id}`)
 	if (res) {
 		const action = getSetVenue(res)
 		dispatch(action)

@@ -1,20 +1,29 @@
-# temp!
+# Instructions to run
+Open five terminals.
+### Terminal 1 (redis)
+```
+redis-server
+```
+### Terminal 2 (rabbitmq)
+```
+brew services run rabbitmq
+```
 
-## instructions to run
-- In one terminal, go to 
+### Terminal 3 (celery)
 ```
-covid_platform/frontend
+cd backend
+pipenv shell
+celery -A app.celery worker --loglevel=info
 ```
-then execute 
-```bash
-. main.sh
+
+### Terminal 4 (backend)
 ```
-The `.` (period) is equivalent to ```source```.
-- In another terminal, go to 
+cd backend
+pipenv run flask run
 ```
-covid_platform/backend
+
+### Terminal 5
 ```
-then execute
-```bash
-. main.sh
+cd frontend
+yarn start
 ```

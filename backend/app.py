@@ -1,6 +1,7 @@
 import time, random
 from flask import Flask, jsonify
-from flask_socketio import SocketIO
+# from flask_socketio import SocketIO
+import socketio
 from flask_cors import CORS
 from utils.flask_celery import make_celery
 
@@ -17,8 +18,10 @@ db.init_app(app)
 ma.init_app(app)
 celery = make_celery(app)
 celery.autodiscover_tasks(['tasks.demo'], force=True)
-socketio = SocketIO(app)
-socketio.init_app(app, cors_allowed_origins="*")
+# socketio = SocketIO(app)
+# socketio.init_app(app, cors_allowed_origins="*")
+app.sio = socketio.KombuManager('amqps://map:guestguestguest@b-c44d7833-49b8-47ca-b252-31cb81a35d9f.mq.us-east-2.amazonaws.com:5671', write_only = True)
+# app.sio = socketio.KombuManager('amqp://guest:guest@localhost:5672', write_only = True)
 CORS(app)
 
 @app.route('/')
@@ -77,15 +80,15 @@ def longtask_result(task_id=None):
     return jsonify(response)
 
 # test demo for socketio
-@socketio.on('connect')
-def connect():
-    print('successfully connected!')
+# @socketio.on('connect')
+# def connect():
+#     print('successfully connected!')
 
-@socketio.on('sendMsg')
-def sendMsg(information):
-    socketio.emit('reciveMsg', information)
+# @socketio.on('sendMsg')
+# def sendMsg(information):
+#     socketio.emit('reciveMsg', information)
 
-app.register_blueprint(venue.blue)
+app.register_blueprint(venue.blue, url_prefix='/venue')
 app.register_blueprint(review.blue, url_prefix='/review')
 app.register_blueprint(user.blue, url_prefix='/user')
 app.register_blueprint(checkin.blue, url_prefix='/checkin')

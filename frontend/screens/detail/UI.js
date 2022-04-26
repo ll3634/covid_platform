@@ -24,143 +24,21 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 
 import styles from './style'
 
-import BottomSheet from '../../../components/BottomSheet'
-import FloatingButton from '../../../components/FloatingButton'
-import RateDetail from '../../../components/RatingTable'
-import BackButton from '../../../components/BackButton'
-import Button from '../../../components/Button'
-import WaterfallList from '../../../components/WaterfallList'
+import BottomSheet from '../../components/BottomSheet'
+import FloatingButton from '../../components/FloatingButton'
+import RateDetail from '../../components/RatingTable'
+import BackButton from '../../components/BackButton'
+import Button from '../../components/Button'
+import WaterfallList from '../../components/WaterfallList'
 
-import { windowHeight, windowWidth } from '../../../assets/constants/Dimensions'
+import { windowHeight, windowWidth } from '../../assets/constants/Dimensions'
 
-import items from '../../../data/boxData'
+import items from '../../data/boxData'
 
 const AnimatedView = Animated.createAnimatedComponent(View)
 const AnimatedImageBackground =
 	Animated.createAnimatedComponent(ImageBackground)
 const AnimatedBlurView = Animated.createAnimatedComponent(BlurView)
-const data = [
-	{
-		created_at: '2022-02-12T19:12:41.434271',
-		review: 'adfsdafs',
-		user_id: 1,
-		venue_id: 4
-	},
-	{
-		created_at: '2022-02-12T19:12:41.434271',
-		review: 'good',
-		user_id: 2,
-		venue_id: 4
-	},
-	{
-		created_at: '2022-02-12T19:12:41.434271',
-		review: 'average',
-		user_id: 3,
-		venue_id: 4
-	},
-	{
-		created_at: '2022-02-12T19:12:41.434271',
-		review: 'ok',
-		user_id: 4,
-		venue_id: 4
-	},
-	{
-		created_at: '2022-02-12T19:12:41.434271',
-		review: 'adfsdafs',
-		user_id: 1,
-		venue_id: 4
-	},
-	{
-		created_at: '2022-02-12T19:12:41.434271',
-		review: 'good',
-		user_id: 2,
-		venue_id: 4
-	},
-	{
-		created_at: '2022-02-12T19:12:41.434271',
-		review: 'average',
-		user_id: 3,
-		venue_id: 4
-	},
-	{
-		created_at: '2022-02-12T19:12:41.434271',
-		review: 'ok',
-		user_id: 4,
-		venue_id: 4
-	},
-	{
-		created_at: '2022-02-12T19:12:41.434271',
-		review: 'adfsdafs',
-		user_id: 1,
-		venue_id: 4
-	},
-	{
-		created_at: '2022-02-12T19:12:41.434271',
-		review: 'good',
-		user_id: 2,
-		venue_id: 4
-	},
-	{
-		created_at: '2022-02-12T19:12:41.434271',
-		review: 'average',
-		user_id: 3,
-		venue_id: 4
-	},
-	{
-		created_at: '2022-02-12T19:12:41.434271',
-		review: 'ok',
-		user_id: 4,
-		venue_id: 4
-	},
-	{
-		created_at: '2022-02-12T19:12:41.434271',
-		review: 'adfsdafs',
-		user_id: 1,
-		venue_id: 4
-	},
-	{
-		created_at: '2022-02-12T19:12:41.434271',
-		review: 'good',
-		user_id: 2,
-		venue_id: 4
-	},
-	{
-		created_at: '2022-02-12T19:12:41.434271',
-		review: 'average',
-		user_id: 3,
-		venue_id: 4
-	},
-	{
-		created_at: '2022-02-12T19:12:41.434271',
-		review: 'ok',
-		user_id: 4,
-		venue_id: 4
-	},
-	{
-		created_at: '2022-02-12T19:12:41.434271',
-		review: 'adfsdafs',
-		user_id: 1,
-		venue_id: 4
-	},
-	{
-		created_at: '2022-02-12T19:12:41.434271',
-		review: 'good',
-		user_id: 2,
-		venue_id: 4
-	},
-	{
-		created_at: '2022-02-12T19:12:41.434271',
-		review: 'average',
-		user_id: 3,
-		venue_id: 4
-	},
-	{
-		created_at: '2022-02-12T19:12:41.434271',
-		review: 'ok',
-		user_id: 4,
-		venue_id: 4
-	}
-]
 
 export default function List (props) {
 	const childFunc = React.useRef(null)
@@ -180,8 +58,12 @@ export default function List (props) {
 	})
 
 	useEffect(() => {
-		props.getListData()
+		
 	})
+
+	useEffect(() => {
+		props.getListData()
+	},[])
 
 	const bannerAnimation = useAnimatedStyle(() => {
 		const height = interpolate(
@@ -262,7 +144,7 @@ export default function List (props) {
 
 	return (
 		<GestureHandlerRootView style={{}}>
-			<View style={{ zIndex: 2, top: 50 }}>
+			<View style={{ zIndex: 2, top: 40 }}>
 				<BackButton
 					navigation={() => {
 						props.navigation.goBack()
@@ -333,7 +215,7 @@ export default function List (props) {
 				<Button
 					text={'Check-In'}
 					navigation={() => {
-						props.navigation.navigate('Form', { id: 1 })
+						props.navigation.navigate('Form', { venue_id: props.route.params.id })
 					}}
 				/>
 			</View>
@@ -347,7 +229,10 @@ export default function List (props) {
 					bannerAnimation,
 					styles.backgroudImage
 				]}
-				source={require('../../../assets/images/test.png')}
+				// source={require('../../../assets/images/test.png')}
+				source={{
+											uri: `https://expouploads22309-dev.s3.us-east-2.amazonaws.com/public/venue/${props.route.params.id}/1.jpg`
+										}}
 			>
 				<AnimatedBlurView
 					tint="dark"
@@ -401,13 +286,7 @@ export default function List (props) {
 					]}
 				>
 					<Text style={[styles.descText, { color: 'gray', fontSize: 13 }]}>
-						The park is an open space, dominated by the Washington Square Arch
-						at the northern gateway to the park, with a tradition of celebrating
-						nonconformity. The park's fountain area has long been one of the
-						city's popular spots, and many of the local buildings have at one
-						time served as homes and studios for artists. Many buildings have
-						been built by New York University, while others have been converted
-						from their former uses into academic and residential buildings.{' '}
+						{props.route.params.venue_description}
 					</Text>
 				</View>
 
@@ -417,16 +296,16 @@ export default function List (props) {
 						provider={PROVIDER_GOOGLE}
 						style={{ flex: 1 }}
 						region={{
-							latitude: 40.730824,
-							longitude: -73.99733,
+							latitude: parseFloat(props.route.params.venue_latitude),
+							longitude: parseFloat(props.route.params.venue_longitude),
 							latitudeDelta: 0.00864195044303443,
 							longitudeDelta: 0.000142817690068
 						}}
 					>
 						<MapView.Marker
 							coordinate={{
-								latitude: 40.730824,
-								longitude: -73.99733
+								latitude: parseFloat(props.route.params.venue_latitude),
+								longitude: parseFloat(props.route.params.venue_longitude)
 							}}
 						/>
 					</MapView>

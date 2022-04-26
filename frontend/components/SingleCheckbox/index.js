@@ -7,7 +7,7 @@ export default function SingleCheckbox ({
 	optionlist,
 	onSelectSwitch
 }) {
-	const [getSelectionMode, setSelectionMode] = useState('')
+	const [getSelectionMode, setSelectionMode] = useState(selectionMode)
 
 	const updateSwitchData = (value) => {
 		setSelectionMode(value)

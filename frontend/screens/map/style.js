@@ -78,9 +78,9 @@ const styles = StyleSheet.create({
 		height: 50
 	},
 	marker: {
-		top: 14,
-		width: 30,
-		height: 30
+		top: 14.75,
+		width: 30.5,
+		height: 30.5
 	},
 	markerImage: {
 		top: -15,

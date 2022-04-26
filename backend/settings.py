@@ -10,5 +10,7 @@ class Dev():
     SESSION_TYPE = 'redis'
     SESSION_REDIS = Redis(host='localhost', db=8)
     
-    CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672'
-    CELERY_BACKEND = 'redis://localhost:6379/0'
+    CELERY_BROKER_URL = 'amqps://map:guestguestguest@b-c44d7833-49b8-47ca-b252-31cb81a35d9f.mq.us-east-2.amazonaws.com:5671'
+    # CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672'
+    CELERY_BACKEND = 'redis://clustercfg.map-redis.l9mm3k.memorydb.us-east-2.amazonaws.com:6379/0'
+    # CELERY_BACKEND = 'redis://localhost:6379/0'

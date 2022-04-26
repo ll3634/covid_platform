@@ -1,8 +1,6 @@
 import axios from 'axios'
 import { SET_CATEGORIES, SET_TAB } from './actionType'
-import baseUrl from '../../../assets/constants/BaseUrl'
-
-// const baseUrl = 'http://127.0.0.1:5000';
+import baseUrl from '../../assets/constants/BaseUrl'
 
 export const getSetCategoriesAction = (data) => {
 	return {

@@ -1,0 +1,4 @@
+const SET_CATEGORIES = 'map/SET_CATEGORIES'
+const SET_TAB = 'map/SET_TAB'
+
+export { SET_CATEGORIES, SET_TAB }

@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, current_app
 from flask_restful import Api, Resource
 from models.venue import db, Venue
 from schemas.venue import venue_schema, venues_schema
@@ -20,9 +20,19 @@ class VenuesResource(Resource):
         latitude = request.json['latitude']
         longitude = request.json['longitude']
         image_num = request.json['image_num']
+        
+        
         venue = Venue(name, description, latitude, longitude, image_num)
         db.session.add(venue)
         db.session.commit() 
+        
+        data = {
+            'name': name,
+            'description': description,
+        }
+        # current_app.sio.emit('NewVenue', data=data)
+        current_app.sio.emit('NewVenue', data=data, room='1')
+        
         return venue_schema.jsonify(venue)
 
 
@@ -51,8 +61,8 @@ class VenueResource(Resource):
         return result        
 
 
-api.add_resource(VenuesResource, '/venue', methods = ['GET', 'POST'])
-api.add_resource(VenueResource, '/venue/<id>', methods = ['GET', 'PUT', 'DELETE'])
+api.add_resource(VenuesResource, '/', methods = ['GET', 'POST'])
+api.add_resource(VenueResource, '/<id>', methods = ['GET', 'PUT', 'DELETE'])
 
 
 # @blue.route('/add', methods=['POST'])

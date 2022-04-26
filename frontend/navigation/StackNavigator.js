@@ -3,10 +3,11 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import Start from '../screens/start/View'
-import List from '../screens/view/detail/View'
+import List from '../screens/detail/View'
 import Detail from '../screens/checkin/View'
 import Form from '../screens/form/View'
-import Uploader from '../screens/view/upload/View'
+import Uploader from '../screens/upload/View'
+import Notification from '../screens/notification/View'
 import Home from './TabNavigator'
 
 const Stack = createNativeStackNavigator()
@@ -44,6 +45,11 @@ function RouteApp () {
 					name="Uploader"
 					component={Uploader}
 					options={{ headerShown: false }}
+				/>
+				<Stack.Screen
+					name="Notification"
+					component={Notification}
+					options={{ headerShown: true }}
 				/>
 			</Stack.Navigator>
 		</NavigationContainer>

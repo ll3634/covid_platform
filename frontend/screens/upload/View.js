@@ -7,9 +7,9 @@ import * as ImagePicker from 'expo-image-picker'
 import { useEffect, useState } from 'react'
 import { Button, Image, StyleSheet, Text, View } from 'react-native'
 
-import BackButton from '../../../components/BackButton'
+import BackButton from '../../components/BackButton'
 
-import awsconfig from '../../../datacenter/aws-exports'
+import awsconfig from '../../datacenter/aws-exports'
 
 Amplify.configure(awsconfig)
 

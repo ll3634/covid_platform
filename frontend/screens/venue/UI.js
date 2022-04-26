@@ -5,7 +5,6 @@ import {
 	Text,
 	Image,
 	TextInput,
-	FlatList,
 	TouchableOpacity
 } from 'react-native'
 import styles from './style'
@@ -16,15 +15,13 @@ import Carousel from 'react-native-snap-carousel'
 import Feather from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
-import BannerSlider from '../../../components/BannerSlider'
-import CustomSwitch from '../../../components/RadioSwitch'
-import MultiSelector from '../../../components/MultiSelector'
-import MultiCheckbox from '../../../components/MultiCheckbox'
-import SingleCheckbox from '../../../components/SingleCheckbox'
-import StarRating from '../../../components/Rating'
-import sliderData from '../../../data/venueData'
-import Accordion from '../../../components/Accordion'
-import { windowWidth, windowHeight } from '../../../assets/constants/Dimensions'
+import BannerSlider from '../../components/BannerSlider'
+import CustomSwitch from '../../components/RadioSwitch'
+import MultiSelector from '../../components/MultiSelector'
+import StarRating from '../../components/Rating'
+import sliderData from '../../data/venueData'
+import Accordion from '../../components/Accordion'
+import { windowWidth, windowHeight } from '../../assets/constants/Dimensions'
 
 export default function Venue (props) {
 	const [scrollY, setScrollY] = useState(new Animated.Value(0))
@@ -33,7 +30,8 @@ export default function Venue (props) {
 
 	useEffect(() => {
 		props.getVenuesInfo()
-	})
+		props.getCheckinsInfo() 
+	}, [])
 
 	const getHeaderY = (mode) => {
 		if (mode === 2) {
@@ -62,6 +60,7 @@ export default function Venue (props) {
 		// refs.Accordion.startAnimation();
 	}
 
+
 	return (
 		<SafeAreaView style={{ padding: 20, marginLeft: 5, marginRight: 5 }}>
 			<View style={styles.profile}>
@@ -74,12 +73,19 @@ export default function Venue (props) {
 					/>
 					<Text style={styles.name}> Times Square</Text>
 				</View>
+				<TouchableOpacity
+					onPress={() => {
+								// props.navigation.navigate('Notification', {})
+								alert(props.checkin[0])
+							}}
+				>
 				<Ionicons
 					name="ios-notifications-outline"
 					size={20}
 					color={'black'}
 					style={{ marginTop: 0 }}
 				/>
+				</TouchableOpacity>
 			</View>
 			<View style={styles.search}>
 				<Feather
@@ -185,15 +191,19 @@ export default function Venue (props) {
 						<TouchableOpacity
 							onPress={() => {
 								props.navigation.navigate('List', {
-									id: 4,
+									id: item.id,
 									venue_name: item.name,
-									venue_desciption: item.description
+									venue_description: item.description,
+									venue_latitude: item.latitude,
+									venue_longitude: item.longitude
 								})
 							}}
 						>
 							<View style={[styles.card]}>
 								<Image
-									source={require('../../../assets/images/test.png')}
+									source={{
+											uri: `https://expouploads22309-dev.s3.us-east-2.amazonaws.com/public/venue/${item.id}/1.jpg`
+										}}
 									style={styles.image}
 								/>
 								<View style={[styles.cardText]}>
@@ -201,27 +211,27 @@ export default function Venue (props) {
 										<Text style={styles.title}>{item.name}</Text>
 										<StarRating
 											style={styles.starRating}
-											ratings={3}
-											reviews={79}
+											ratings={5}
+											reviews={1}
 										/>
 									</View>
 									<View style={[styles.textWrapper]}>
 										<Feather name="map-pin" size={13} color={'gray'} />
-										<Text style={styles.text}> 2.2 km</Text>
+										<Text style={styles.text}> ? km</Text>
 										<Text style={styles.text}> | </Text>
 										<Feather name="calendar" size={13} color={'gray'} />
-										<Text style={styles.text}> 5am - 10pm</Text>
+										<Text style={styles.text}> ? am - ? pm</Text>
 									</View>
 									<View style={[styles.textWrapper]}>
 										<Feather name="list" size={13} color={'gray'} />
-										<Text style={styles.text}> Restaurant, Bar</Text>
+										<Text style={styles.text}> {item.categories}</Text>
 									</View>
 									<View style={styles.detailWrapper}>
 										<View style={styles.detail}>
-											<Text style={styles.info}> # OF VISIT: 25 </Text>
+											<Text style={styles.info}> # OF VISIT: {props.checkin[item.id - 1].check_num} </Text>
 										</View>
 										<View style={styles.detail}>
-											<Text style={styles.info}> # OF CASES: 0 </Text>
+											<Text style={styles.info}> # OF CASES: {props.checkin[item.id - 1].case_num} </Text>
 										</View>
 									</View>
 								</View>

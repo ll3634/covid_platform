@@ -2,26 +2,76 @@ import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import uuid
+import datetime as dt
+from dataclasses import dataclass
 from flask import Blueprint, jsonify, request
+from flask_restful import Api, Resource
 from cache.checkin import check_in, create_checkin
 from broker.checkin import create_checkin_queue, create_dead_queue
-from models.checkin import db, Checkin
-from schemas.checkin import checkin_schema, checkins_schema
+from models.checkin import db, Checkin, CheckinInfo
+from schemas.checkin import checkin_schema, checkins_schema, checkinInfos_schema, checkin_join_schema, checkin_num_schema
 
 
 blue = Blueprint('checkin', __name__)
+api = Api(blue)
 
-@blue.route('/', methods=['GET'])
-def get_new():
-    return "Start"
 
-@blue.route('/get', methods=['GET'])
-def get_reviews():
-    return "get"
+class CheckinsResource(Resource):
+    def get(self):
+        venues = Checkin.query.all()
+        results = checkins_schema.dump(venues)
+        return jsonify(results)
+    
+    def post(self):
+        venue_id = request.json['venue_id']
+        temp = request.json['temp']
+        test = request.json['test']  
+        contact = request.json['contact']
+        personnel = request.json['personnel']
+        symptoms = request.json['symptoms']
+        
+        print(temp, test, contact, personnel, symptoms) 
+        
+        checkin = Checkin(1, venue_id, '')
+        db.session.add(checkin)
+        db.session.commit() 
+                
+        checkininfo = CheckinInfo(checkin.id, temp, test, contact, personnel, symptoms)
+        db.session.add(checkininfo)
+        db.session.commit() 
+        
+        return checkin_schema.jsonify(checkin)
+      
 
-@blue.route('/get/<id>', methods=['GET'])
-def get_reviews_venue(id):
-    return id
+class CheckinResource(Resource):
+    def get(self, id):        
+        checkin = db.session.query(Checkin, CheckinInfo).filter(Checkin.id == CheckinInfo.checkin_id).filter(Checkin.venue_id == id).all()
+        result = checkin_join_schema.jsonify(checkin)
+        return result
+
+
+api.add_resource(CheckinsResource, '/', methods = ['GET', 'POST'])
+api.add_resource(CheckinResource, '/<id>', methods = ['GET', 'PUT'])
+
+
+@blue.route('/num', methods = ['GET'])
+def num():
+  @dataclass
+  class Num:
+    venue_id: int
+    check_num: int
+    case_num: int
+  
+  res = []
+  for i in range(1, 10):
+    check_num = db.session.query(Checkin, CheckinInfo).filter(Checkin.id == CheckinInfo.checkin_id).filter(Checkin.venue_id == i).count()
+    case_num = db.session.query(Checkin, CheckinInfo).filter(Checkin.id == CheckinInfo.checkin_id).filter(Checkin.venue_id == i).filter(CheckinInfo.test == '2').count()
+    data = Num(i, check_num, case_num)
+    res.append(data)
+  
+  result = checkin_num_schema.jsonify(res)
+  return result
+
   
 @blue.route('/check', methods=['GET', 'POST'])
 def check():

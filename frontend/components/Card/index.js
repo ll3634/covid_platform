@@ -43,7 +43,7 @@ const Card = ({ children, index, marker, translateX, translateY }) => {
 		>
 			<View style={[styles.textContent, { backgroundColor: 'white' }]}>
 				{children}
-				<Text style={styles.cardtitle}>{marker.title}</Text>
+				<Text style={styles.cardtitle}>{marker.name}</Text>
 				<View style={styles.rating}>
 					<StarRating ratings={marker.rating} reviews={marker.reviews} />
 				</View>
@@ -52,7 +52,7 @@ const Card = ({ children, index, marker, translateX, translateY }) => {
 				<View style={styles.iconWrapper}>
 					<View style={styles.icon}>
 						<MaterialIcons name="restaurant" />
-						<Text style={styles.iconText}> RESTAURANT</Text>
+						<Text style={styles.iconText}> {marker.categories}</Text>
 					</View>
 					<View style={styles.icon}>
 						<MaterialIcons name="local-cafe" />
@@ -68,7 +68,7 @@ const Card = ({ children, index, marker, translateX, translateY }) => {
 					scrollEventThrottle={16}
 					style={{ marginHorizontal: 20, marginTop: 20, marginBottom: 10 }}
 				>
-					{markers.map((marker, index) => {
+					{markers.map((item, index) => {
 						return (
 							<View
 								key={index}
@@ -81,7 +81,9 @@ const Card = ({ children, index, marker, translateX, translateY }) => {
 								}}
 							>
 								<Image
-									source={require('../../assets/images/test.png')}
+										source={{
+											uri: `https://expouploads22309-dev.s3.us-east-2.amazonaws.com/public/venue/${marker.id}/${index + 1}.jpg`
+										}}
 									style={{ height: 100, width: 100 }}
 									resizeMode="cover"
 								/>

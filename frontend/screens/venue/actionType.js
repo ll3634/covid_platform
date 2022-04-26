@@ -1,0 +1,5 @@
+const SET_CATEGORIES = 'venue/SET_CATEGORIES'
+const SET_TAB = 'venue/SET_TAB'
+const SET_CHECKIN = 'venue/SET_CHECKIN'
+
+export { SET_CATEGORIES, SET_TAB, SET_CHECKIN }

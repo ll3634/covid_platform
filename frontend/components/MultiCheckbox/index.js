@@ -7,7 +7,7 @@ export default function MultiCheckbox ({
 	optionlist,
 	onSelectSwitch
 }) {
-	const [getSelectionMode, setSelectionMode] = useState([])
+	const [getSelectionMode, setSelectionMode] = useState(selectionMode)
 
 	const updateSwitchData = (value) => {
 		if (getSelectionMode.includes(value)) {

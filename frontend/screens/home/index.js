@@ -1,4 +1,4 @@
-import reducer from '../view/venue/reducer'
-import View from '../view/venue/View'
+import reducer from '../venue/reducer'
+import View from '../venue/View'
 
 export { reducer, View }

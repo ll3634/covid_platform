@@ -9,11 +9,11 @@ const CARD_SPACING = width * 0.1 - 10
 const styles = StyleSheet.create({
 	card: {
 		backgroundColor: '#ffffff',
-		borderRadius: 10,
+		borderRadius: 15,
 		height: CARD_HEIGHT,
 		width: windowWidth * 0.975,
 		marginRight: -windowWidth * 0.9875,
-		marginLeft: windowWidth * 0.0125
+		marginLeft: windowWidth * 0.0125,
 		// overflow: "hidden",
 	},
 	cardImage: {
@@ -27,11 +27,11 @@ const styles = StyleSheet.create({
 		padding: 10
 	},
 	cardtitle: {
-		fontSize: 20,
+		fontSize: 19,
 		fontWeight: 'bold',
-		height: 20,
-		marginTop: 5,
-		marginBottom: 10,
+		height: 24,
+		marginTop: 10,
+		marginBottom: 5,
 		marginLeft: 10
 	},
 	rating: {

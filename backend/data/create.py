@@ -4,8 +4,10 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app import app
 from utils import crypt
 from models.user import db, User, Role, user_role
-from models.venue import Venue, Category
+from models.venue import Venue, Category, VenueInfo
 from models.checkin import Checkin
+
+from datetime import time
 
 
 def add_user(phone, password, nickname, photo = 0):
@@ -66,6 +68,11 @@ def add_venue_category(venue_id, category_name):
     db.session.commit()
     print('Add venue_category succeed: ', venue.categories)  
     
+def add_venue_info(venue_id, capacity, start_hour, end_hour):
+    venue_info = VenueInfo(venue_id, capacity, start_hour, end_hour)
+    db.session.add(venue_info)
+    db.session.commit()
+    print('Add venue succeed: ', venue_info.id, venue_info.venue_id, venue_info.capacity, venue_info.start_hour, venue_info.end_hour)
     
 def add_checkin(user_id, venue_id):
     # user = User.query.get(user_id)
@@ -100,6 +107,13 @@ if __name__ == '__main__':
     add_venue_category(3, 'park')
     add_venue_category(4, 'school')
     add_venue_category(5, 'school')
+    
+    add_venue_info(1, 10, time(11, 2, 32), time(12, 2, 32))
+    add_venue_info(2, 20, time(10, 2, 32), time(23, 25, 32))
+
+    
+    # test = VenueInfo.query.filter_by(venue_id = 1).all()
+    # print(test[0].capacity)
     
     # add_checkin(1, 1)
     # add_checkin(1, 2)

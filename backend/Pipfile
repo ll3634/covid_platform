@@ -21,6 +21,7 @@ flask-socketio = "*"
 kombu = "*"
 flask-restful = "*"
 eventlet = "*"
+flask-apscheduler = "*"
 
 [dev-packages]
 

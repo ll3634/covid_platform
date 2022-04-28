@@ -35,3 +35,16 @@ class User(db.Model):
         self.auth_key = auth_key
         self.nickname = nickname
         self.photo = photo
+        
+
+class UserLocation(db.Model):
+    id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
+    latitude = db.Column(db.Numeric)
+    longitude = db.Column(db.Numeric)
+    
+    def __init__(self, user_id, latitude = 0, longitude = 0):
+        self.user_id = user_id
+        self.latitude = latitude
+        self.longitude = longitude

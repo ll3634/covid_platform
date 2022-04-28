@@ -1,13 +1,15 @@
 from datetime import datetime, timedelta
 from flask import Flask, jsonify
-# from flask_socketio import SocketIO
+from apscheduler.schedulers.background import BackgroundScheduler
 import socketio
 from flask_cors import CORS
-from utils.flask_celery import make_celery
 
 from models import db
 from schemas import ma
+from schedule import scheduler
+
 from views import venue, review, user, checkin
+from schedule import period
 
 import settings
 
@@ -16,10 +18,15 @@ app.config.from_object(settings.Dev)
 
 db.init_app(app)
 ma.init_app(app)
+scheduler.init_app(app)
+
+scheduler = BackgroundScheduler()
+scheduler.start()
+
+from utils.flask_celery import make_celery
 celery = make_celery(app)
 celery.autodiscover_tasks(['tasks.demo'], force=True)
-# socketio = SocketIO(app)
-# socketio.init_app(app, cors_allowed_origins="*")
+
 app.sio = socketio.KombuManager('amqps://map:guestguestguest@b-c44d7833-49b8-47ca-b252-31cb81a35d9f.mq.us-east-2.amazonaws.com:5671', write_only = True)
 # app.sio = socketio.KombuManager('amqp://guest:guest@localhost:5672', write_only = True)
 CORS(app)
@@ -83,10 +90,46 @@ def longtask_result(task_id=None):
 def timetask():
     ctime = datetime.now()
     utc_time = datetime.utcfromtimestamp(ctime.timestamp())
-    time_delay = timedelta(seconds=20)
-    task_time = utc_time + time_delay
-    celery.send_task('tasks.demo.late_time', eta=task_time)
+    delay_list = []
+    for i in range(10):
+        delay_list.append(utc_time + timedelta(seconds=i * 1))
+    for delay in delay_list:
+        celery.send_task('tasks.demo.late_time', eta=delay)
+    # time_delay = timedelta(seconds=20)
+    # task_time = utc_time + time_delay
+    # celery.send_task('tasks.demo.late_time', eta=task_time)
     return "Succeed, Calling Task!"
+
+# test demo for apscheduler
+@app.route('/apstask')
+def apstask():
+    scheduler.add_job(func=job1, id='do_job_1', trigger='interval', seconds=2)
+    return "Succeed, Calling Task!"
+
+@app.route('/apstask/stop')
+def apstask_stop():
+    scheduler.remove_job('do_job_1')
+    return "Succeed, Stop Task!"
+
+@app.route('/addcapacity')
+def addcapacity():
+    scheduler.add_job(func=job2, id='do_job_2', trigger='interval', seconds=2)
+    return "Succeed, Calling Task!"
+
+@app.route('/addcapacity/stop')
+def addcapacity_stop():
+    scheduler.remove_job('do_job_2')
+    return "Succeed, Stop Task!"
+
+def job1():
+    with app.app_context():
+        period.Job1()
+
+def job2():
+    with app.app_context():
+        period.Job2()
+    
+
 
 app.register_blueprint(venue.blue, url_prefix='/venue')
 app.register_blueprint(review.blue, url_prefix='/review')

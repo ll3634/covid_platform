@@ -27,5 +27,5 @@ def long_task(self):
 
 @celery.task()
 def late_time():
-    print('hello')
-    return 'hello'
+    print('time')
+    return 'return_time'

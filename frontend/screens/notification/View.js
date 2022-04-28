@@ -4,7 +4,7 @@ import {
 	Text,
 	View,
 	SafeAreaView,
-	TouchableOpacity
+	ScrollView,
 } from 'react-native'
 
 import socket from '../../socket/socket'
@@ -38,17 +38,16 @@ export default function Start(props) {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<View style={styles.title}>
+			<ScrollView style={styles.title}>
 				{messages.map((item, index) => {
 					return (
-						<View key={index} style={styles.item}>
+						<View key={index} style={styles.item} >
 							<Text style={styles.itemText}>A confirmed case (user_id: {item.description})</Text>
 							<Text style={styles.itemText}>checked in your liked venue (venue_id: {item.name}).</Text>
-							<Text style={styles.itemText}>Please  </Text>
 						</View>
 					)
 				})}
-			</View>
+			</ScrollView>
 		</SafeAreaView>
 	)
 }
@@ -58,16 +57,32 @@ const styles = StyleSheet.create({
 		flex: 1,
 		// justifyContent: 'center',
 		// alignItems: 'center',
-		backgroundColor: '#ffffff'
+		backgroundColor: '#f5f5f5'
 	},
 	title: {
 		marginTop: 20
 	},
 	item: {
-		flexDirection: 'column',
+		// flexDirection: 'column',
+		// justifyContent: 'space-between',
+		// // alignItems: 'center',
+		// marginBottom: 20
+		paddingVertical: 20,
+		paddingHorizontal: 20,
+		marginBottom: 5,
 		justifyContent: 'space-between',
-		// alignItems: 'center',
-		marginBottom: 20
+		alignContent: 'center',
+		flexDirection: 'column',
+		backgroundColor: '#fff',
+		width: '95%',
+		height: 95,
+		alignSelf: 'center',
+		borderRadius: 10,
+		shadowColor: '#ccc',
+		shadowOffset: { width: 0, height: 3 },
+		shadowOpacity: 0.5,
+		shadowRadius: 5,
+		elevation: 10
 	},
 	itemText: {
 		fontSize: 16,

@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import { View as Venue } from '../screens/home'
 import Map from '../screens/map/View'
-import Report from '../screens/report-user/View'
+import Report from '../screens/report-user/App'
 import Check from '../screens/check-user/View'
 import Trial from '../screens/report-staff-trial/App'
 

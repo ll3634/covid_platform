@@ -1,162 +1,79 @@
-import Auth from '@aws-amplify/auth'
-import Amplify from '@aws-amplify/core'
-import Storage from '@aws-amplify/storage'
-import * as Clipboard from 'expo-clipboard'
+
 import Constants from 'expo-constants'
 import * as ImagePicker from 'expo-image-picker'
 import { useEffect, useState } from 'react'
-import { Button, Image, StyleSheet, Text, View } from 'react-native'
+import {
+	Button,
+	Image,
+	Text,
+	StyleSheet,
+	View,
+	Header,
+	ScrollView,
+	TouchableOpacity
+} from 'react-native'
+import { FAB } from 'react-native-elements'
+import Icon from 'react-native-vector-icons/Ionicons'
+import { connect } from 'react-redux'
 
-import awsconfig from '../../datacenter/aws-exports'
 
-Amplify.configure(awsconfig)
 
-export default function FileModule ({ name = 'mydemo.jpg' }) {
-	const [image, setImage] = useState(null)
-	const [percentage, setPercentage] = useState(0)
+function Review(props) {
+	const test = ""
 
-	useEffect(() => {
-		;(async () => {
-			if (Constants.platform.ios) {
-				const cameraRollStatus =
-					await ImagePicker.requestMediaLibraryPermissionsAsync()
-				const cameraStatus = await ImagePicker.requestCameraPermissionsAsync()
-				if (
-					cameraRollStatus.status !== 'granted' ||
-					cameraStatus.status !== 'granted'
-				) {
-					alert('Sorry, we need these permissions to make this work!')
-				}
-			}
-		})()
-	}, [])
+	const Card =(data)=>{
+		return (
+			<View style={styles.card}><Text style={{ fontSize: 15 }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
+			tincidunt imperdiet lacus, non viverra massa elementum vel. Mauris
+			maximus augue elementum, semper mi eget, cursus nisl. Proin cursus ex
+			a luctus malesuada. Quisque egestas luctus feugiat. Suspendisse ante
+			sapien, scelerisque eget laoreet ac, venenatis ut orci. Nullam ac nunc
+			et metus scelerisque congue sit amet at leo. Proin varius, mauris nec
+			aliquam elementum, mi lorem rhoncus ex, ut consectetur mi lectus
+			rutrum dui. Nunc pharetra mauris vitae maximus varius.</Text></View>
+		)
 
-	const takePhoto = async () => {
-		const result = await ImagePicker.launchCameraAsync({
-			mediaTypes: 'Images',
-			aspect: [4, 3]
-		})
-
-		this.handleImagePicked(result)
 	}
-
-	const pickImage = async () => {
-		const result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: 'Images',
-			aspect: [4, 3],
-			quality: 1
-		})
-
-		this.handleImagePicked(result)
-	}
-
-	handleImagePicked = async (pickerResult) => {
-		try {
-			if (pickerResult.cancelled) {
-				alert('Upload cancelled')
-				return
-			} else {
-				setPercentage(0)
-				const img = await fetchImageFromUri(pickerResult.uri)
-				const uploadUrl = await uploadImage(name, img)
-				console.log(uploadUrl)
-				downloadImage(uploadUrl)
-			}
-		} catch (e) {
-			console.log(e)
-			alert('Upload failed')
-		}
-	}
-
-	uploadImage = (filename, img) => {
-		Auth.currentCredentials()
-
-		return Storage.put(filename, img, {
-			level: 'public',
-			contentType: 'image/jpeg',
-			progressCallback (progress) {
-				setLoading(progress)
-			}
-		})
-			.then((response) => {
-				return response.key
-			})
-			.catch((error) => {
-				console.log(error)
-				return error.response
-			})
-	}
-
-	const setLoading = (progress) => {
-		const calculated = parseInt((progress.loaded / progress.total) * 100)
-		updatePercentage(calculated) // due to s3 put function scoped
-	}
-
-	const updatePercentage = (number) => {
-		setPercentage(number)
-	}
-
-	downloadImage = (uri) => {
-		Storage.get(uri)
-			.then((result) => {
-				setImage(result)
-			})
-			.catch((err) => console.log(err))
-	}
-
-	const fetchImageFromUri = async (uri) => {
-		const response = await fetch(uri)
-		const blob = await response.blob()
-		return blob
-	}
-
-	const copyToClipboard = () => {
-		Clipboard.setString(image)
-		alert('Copied image URL to clipboard')
-	}
-
 	return (
 		<View style={styles.container}>
-			{percentage !== 0 && <Text style={styles.percentage}>{percentage}%</Text>}
-			{image && (
-				<View>
-					<Text style={styles.result} onPress={copyToClipboard}>
-						<Image
-							source={{ uri: image }}
-							style={{ width: 250, height: 250 }}
-						/>
-					</Text>
-					<Text style={styles.info}>Long press to copy the image url</Text>
-				</View>
-			)}
+			<View style={{ borderBottomColor: 'grey', borderBottomWidth: 1 }}>
+				
+			</View>
+			<ScrollView style={{height:'100%', marginBottom:'20%'}}>
 
-			<Button onPress={pickImage} title="Pick an image from camera roll" />
-			<Button onPress={takePhoto} title="Take a photo" />
+				<Card></Card>
+				<Card></Card>
+				<Card/>
+				
+			</ScrollView>
+			<View style={styles.addReview}>
+					<TouchableOpacity onPress={() => props.navigation.navigate('Create')}>
+						<Icon name="add-circle-sharp" color="black" size={60} />
+					</TouchableOpacity>
+				</View>
 		</View>
 	)
 }
+const mapState = (state) => {
+	return {
+		venues: state.report
+	}
+}
+
+export default connect(mapState)(Review)
+
 
 const styles = StyleSheet.create({
 	container: {
-		// flex: 1,
+		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: '#F5FCFF'
 	},
-	title: {
-		fontSize: 20,
-		marginBottom: 20,
-		textAlign: 'center',
-		marginHorizontal: 15
+	addReview:{
+		position: 'absolute',
+		right: 0,
+		bottom:'16%'
 	},
-	percentage: {
-		marginBottom: 10
-	},
-	result: {
-		paddingTop: 5
-	},
-	info: {
-		textAlign: 'center',
-		marginBottom: 20
-	}
+	card:{backgroundColor:'#e8e7e6', marginHorizontal:'5%', marginVertical:'3%', padding:'5%'}
 })

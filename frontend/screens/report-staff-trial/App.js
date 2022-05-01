@@ -8,7 +8,7 @@ import Upload from './Upload'
 
 const Tab = createNativeStackNavigator()
 
-function Report () {
+export default function Trial () {
 	return (
 		<Tab.Navigator initialRouteName="View">
 			<Tab.Screen name="Venues Created by Me" component={App}></Tab.Screen>
@@ -20,4 +20,4 @@ function Report () {
 	)
 }
 
-export default Report
+

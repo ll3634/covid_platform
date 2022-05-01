@@ -1,11 +1,15 @@
 import { StackActions } from '@react-navigation/native'
 import React, { useEffect, useState, useMemo } from 'react'
 import {
+	View,
 	StyleSheet,
 	Text,
 	SafeAreaView,
 	TouchableOpacity,
 } from 'react-native'
+
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import Logo from '../../assets/images/logo.svg'
 
 const Start = (props) => {
 
@@ -15,8 +19,15 @@ const Start = (props) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
+			<View style={styles.title}>
+					<Text style={styles.text}>Covid Venues</Text>
+				</View>
+				<View style={styles.content}>
+					<Logo height={175} width={175} />
+				</View>
 			<TouchableOpacity style={styles.button} onPress={handleItemClick}>
 				<Text style={styles.buttonText}>Enter !</Text>
+				<MaterialIcons name="arrow-forward-ios" size={25} color="#ffffff" />
 			</TouchableOpacity>
 		</SafeAreaView>
 	)
@@ -55,6 +66,7 @@ const styles = StyleSheet.create({
 	},
 	buttonText: {
 		fontWeight: 'bold',
+		fontStyle: 'italic',
 		fontSize: 20,
 		color: 'white'
 	},

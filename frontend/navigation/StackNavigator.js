@@ -12,7 +12,9 @@ import Form from '../screens/form/View'
 import Uploader from '../screens/upload/View'
 import Notification from '../screens/notification/View'
 import Home from './TabNavigator'
-import Report from '../screens/report-user/View'
+import Report  from '../screens/login/View'
+import Signin from '../screens/signin/View'
+import Password from '../screens/password/View'
 
 const Stack = createNativeStackNavigator()
 
@@ -60,16 +62,18 @@ function RouteApp() {
 
 	const authContext = useMemo(
 		() => ({
-			signIn: async(phone, password) => {
-				let userToken = null
-				if (phone === '123' && password === '123') {
-					userToken = 'test'
+			signIn: async(phone, password, token) => {
+				// let userToken = null
+				// if (phone === '123' && password === '123') {
+				// 	userToken = 'test'
+				let userToken = token
 					try {
 						await AsyncStorage.setItem('userToken', userToken)
 					} catch(e) {
 						console.log(e)
 					}
-				}
+				// }
+				console.log('login token', userToken)
 				dispatch({ type: 'LOGIN', id: phone, token: userToken })
 			},
 			signOut: async() => {
@@ -88,7 +92,6 @@ function RouteApp() {
 
 	useEffect(() => {
 		setTimeout(async() => {
-			// setIsLoading(false)
 			let getToken = null
 			try {
 				getToken = await AsyncStorage.getItem('userToken')
@@ -153,6 +156,16 @@ function RouteApp() {
 						<Stack.Screen
 							name="Report"
 							component={Report}
+							options={{ headerShown: false }}
+						/>
+						<Stack.Screen
+							name="Signin"
+							component={Signin}
+							options={{ headerShown: false }}
+						/>
+						<Stack.Screen
+							name="Password"
+							component={Password}
 							options={{ headerShown: false }}
 						/>
 					</Stack.Navigator>

@@ -4,7 +4,7 @@ import tw from 'twrnc';
 
 const FormLabel = ({text}) => {
 	return (
-		<Text style = {tw`text-lg font-semibold mb-2`}>{text}</Text>
+		<Text style = {tw`text-sm font-semibold mb-2`}>{text}</Text>
 	);
 };
 

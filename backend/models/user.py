@@ -25,12 +25,12 @@ class Authority(BaseModel):
 class User(db.Model):
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     phone = db.Column(db.String(20), unique = True, nullable = False)
-    auth_key = db.Column(db.String(50), nullable = False)
+    auth_key = db.Column(db.String(128), nullable = False)
     nickname = db.Column(db.String(20))
-    photo = db.Column(db.String(100))
+    photo = db.Column(db.String(128))
     roles = db.relationship('Role', secondary = user_role, backref = db.backref('users', lazy = 'dynamic'))
     
-    def __init__(self, phone, auth_key, nickname, photo):
+    def __init__(self, phone, auth_key = '111111', nickname = 'user', photo = 'default.png'):
         self.phone = phone
         self.auth_key = auth_key
         self.nickname = nickname

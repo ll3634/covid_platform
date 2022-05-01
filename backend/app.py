@@ -7,6 +7,7 @@ from flask_cors import CORS
 from models import db
 from schemas import ma
 from schedule import scheduler
+from cache import cache
 
 from views import venue, review, user, checkin
 from schedule import period
@@ -14,10 +15,12 @@ from schedule import period
 import settings
 
 app = Flask(__name__)
+app.secret_key = 'key'
 app.config.from_object(settings.Dev)
 
 db.init_app(app)
 ma.init_app(app)
+cache.init_app(app)
 scheduler.init_app(app)
 
 scheduler = BackgroundScheduler()
@@ -129,6 +132,12 @@ def job2():
     with app.app_context():
         period.Job2()
     
+# test demo for twilio    
+@app.route('/send_sms')
+def send_sms():
+    from utils import sms
+    sms.send_sms(+12184151914)
+    return 'Succeed, Sending SMS!'
 
 
 app.register_blueprint(venue.blue, url_prefix='/venue')

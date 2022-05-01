@@ -23,7 +23,11 @@ import sliderData from '../../data/venueData'
 import Accordion from '../../components/Accordion'
 import { windowWidth, windowHeight } from '../../assets/constants/Dimensions'
 
+import { AuthContext } from '../../context'
+
 export default function Venue (props) {
+	const { signOut } = React.useContext(AuthContext)
+
 	const [scrollY, setScrollY] = useState(new Animated.Value(0))
 	const [mode, setMode] = useState(1)
 	const childFunc = useRef(null)
@@ -71,7 +75,9 @@ export default function Venue (props) {
 						color={'black'}
 						style={{ marginTop: 1 }}
 					/>
+					<TouchableOpacity onPress={()=> {signOut()}}>
 					<Text style={styles.name}> Times Square</Text>
+					</TouchableOpacity>
 				</View>
 				<TouchableOpacity
 					onPress={() => {

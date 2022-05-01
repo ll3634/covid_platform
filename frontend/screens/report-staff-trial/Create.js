@@ -441,7 +441,7 @@ const styles = StyleSheet.create({
 	},
 	buttonWrapper: {
 		backgroundColor: 'white',
-		marginVertical: 20,
+		marginVertical: 15,
 		justifyContent: 'center',
 		alignItems: 'center',
 		flexDirection: 'column',

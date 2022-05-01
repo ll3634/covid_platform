@@ -12,6 +12,10 @@ function Details (props) {
 		props.deleteVenues(item.id)
 	}
 
+	const handleAdd = async () => {
+		props.addCapacities()
+	}
+
 	return (
 		<ScrollView>
 			<View>
@@ -34,6 +38,13 @@ function Details (props) {
 				>
 					Delete Venue
 				</Button>
+				<Button
+					icon="update"
+					mode="contained"
+					onPress={() => handleAdd()}
+				>
+					Apply Rule
+				</Button>
 			</View>
 		</ScrollView>
 	)
@@ -41,6 +52,10 @@ function Details (props) {
 
 const deleteVenue = (id) => async (dispatch) => {
 	const res = await axios.delete(`${baseUrl}/venue/${id}`)
+}
+
+const addCapacity = () => async (dispatch) => {
+	const res = await axios.get(`${baseUrl}/addcapacity`)
 }
 
 const mapState = (state) => {
@@ -51,7 +66,11 @@ const mapDispatch = (dispatch) => {
 	return {
 		deleteVenues (id) {
 			dispatch(deleteVenue(id))
+		},
+		addCapacities () {
+			dispatch(addCapacity())
 		}
+
 	}
 }
 

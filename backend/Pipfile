@@ -22,6 +22,9 @@ kombu = "*"
 flask-restful = "*"
 eventlet = "*"
 flask-apscheduler = "*"
+twilio = "*"
+flask-caching = "*"
+flask-jwt-extended = "*"
 
 [dev-packages]
 

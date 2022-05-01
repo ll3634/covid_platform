@@ -10,6 +10,10 @@ class Dev():
     SESSION_TYPE = 'redis'
     SESSION_REDIS = Redis(host='localhost', db=8)
     
+    CACHE_TYPE = 'redis'
+    CACHE_REDIS_HOST = 'localhost'
+    CACHE_REDIS_PORT = 6379
+    
     SCHEDULER_API_ENABLED = True
     
     CELERY_BROKER_URL = 'amqps://map:guestguestguest@b-c44d7833-49b8-47ca-b252-31cb81a35d9f.mq.us-east-2.amazonaws.com:5671'

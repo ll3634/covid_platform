@@ -1,5 +1,8 @@
+
+
 from flask import Blueprint, request, jsonify, current_app
 from flask_restful import Api, Resource
+from utils.authorization import login_required
 from models.venue import db, Venue, Category, VenueInfo
 from schemas.venue import venue_schema, venues_schema
 
@@ -10,6 +13,7 @@ api = Api(blue)
 
 
 class VenuesResource(Resource):
+    # @login_required
     def get(self):
         venues = Venue.query.all()
         results = venues_schema.dump(venues)

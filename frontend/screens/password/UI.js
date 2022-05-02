@@ -56,8 +56,8 @@ const Password = (props) => {
 					</Text>
 				)}
 				<View>
-					<FormInputGroup>
-						<FormLabel text="SMS Code"></FormLabel>
+				<FormInputGroup>
+						<FormLabel text="Phone"></FormLabel>
 						<FormInput
 							onChangeText={(text) => {
 								props.setPhone(text)
@@ -66,28 +66,38 @@ const Password = (props) => {
 						{/* <Text>{props.phone}</Text> */}
 					</FormInputGroup>
 					<FormInputGroup>
+						<FormLabel text="SMS Code"></FormLabel>
+						<FormInput
+							onChangeText={(text) => {
+								props.setCode(text)
+							}}
+						></FormInput>
+						<Text>{props.sms}</Text>
+					</FormInputGroup>
+					<FormInputGroup>
 						<FormLabel text="New Password"></FormLabel>
 						<FormInput
 							onChangeText={(text) => {
 								props.setPassword(text)
 							}}
 						></FormInput>
-						{/* <Text>{props.password}</Text> */}
+						<Text>{props.password}</Text>
 					</FormInputGroup>
 					<FormInputGroup>
 						<FormLabel text="Confirm"></FormLabel>
 						<FormInput
 							onChangeText={(text) => {
-								props.setPassword(text)
+								props.setConfirm(text)
 							}}
 						></FormInput>
-						{/* <Text>{props.password}</Text> */}
+						<Text>{props.confirm}</Text>
 					</FormInputGroup>
 					<FormButton
 						primary={true}
 						text="Submit"
 						onPress={() => {
-							signIn(props.phone, props.password, props.token)
+							alert(props.phone + ' ' + props.sms + ' ' + props.password + ' ' + props.confirm)
+							props.passwordReset(props.phone, props.sms, props.password, props.confirm)
 						}}
 					></FormButton>
 				</View>
@@ -102,6 +112,15 @@ const Password = (props) => {
 				<Text style={[styles.navButtonText, { marginTop: 40 }]}>
 					Login with Password
 				</Text>
+			</TouchableOpacity>
+
+			<TouchableOpacity
+        style={styles.sendButton}
+				onPress={() => {
+					props.setSMS(props.phone)
+				}}
+			>
+				<Text style={styles.sendText}>SEND</Text>
 			</TouchableOpacity>
 
 			{/* <Text>{props.token}</Text> */}
@@ -128,6 +147,23 @@ const styles = StyleSheet.create({
 	navButton: {
 		marginTop: 15
 	},
+	sendButton: {
+    position: 'absolute',
+    bottom: windowHeight* 0.4715,
+    right: windowWidth * 0.1615,
+    backgroundColor: 'rgba(7,131,238,0.95)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderTopRightRadius: 3,
+    borderBottomRightRadius: 3,
+    width: 100,
+    height: 34,
+  },
+  sendText: {
+    fontSize: 13,
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+  },
 	forgotButton: {
 		marginVertical: 10
 	},

@@ -6,6 +6,7 @@ import { reducer as list } from '../screens/detail'
 import { reducer as form } from '../screens/form'
 import { reducer as login } from '../screens/login'
 import { reducer as signin } from '../screens/signin'
+import { reducer as password } from '../screens/password'
 
 const reducer = combineReducers({
 	venue: venue,
@@ -14,7 +15,8 @@ const reducer = combineReducers({
 	list: list,
 	form: form,
 	login: login,
-	signin: signin
+	signin: signin,
+	password: password
 })
 
 export default reducer

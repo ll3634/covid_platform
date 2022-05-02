@@ -35,6 +35,7 @@ export default function Venue (props) {
 	useEffect(() => {
 		props.getVenuesInfo()
 		props.getCheckinsInfo() 
+		// alert(props.checkin[0].check_num)
 	}, [])
 
 	const getHeaderY = (mode) => {
@@ -230,14 +231,16 @@ export default function Venue (props) {
 									</View>
 									<View style={[styles.textWrapper]}>
 										<Feather name="list" size={13} color={'gray'} />
-										<Text style={styles.text}> {item.categories}</Text>
+										{item.categories.map((category, index) => {
+											return <Text key={index} style={styles.text}> {category.toUpperCase()} </Text>
+										})}
 									</View>
 									<View style={styles.detailWrapper}>
 										<View style={styles.detail}>
-											<Text style={styles.info}> # OF VISIT: { 0} </Text>
+											<Text style={styles.info}> # OF VISIT: { props.checkin[item.id - 1].check_num} </Text>
 										</View>
 										<View style={styles.detail}>
-											<Text style={styles.info}> # OF CASES: { 0} </Text>
+											<Text style={styles.info}> # OF CASES: { props.checkin[item.id - 1].case_num} </Text>
 										</View>
 									</View>
 								</View>

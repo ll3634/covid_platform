@@ -10,6 +10,9 @@ export const getSetCategoriesAction = (data) => {
 	}
 }
 
+// export const getSetAction = (data) => {
+	
+
 export const getSetTabAction = (data) => {
 	return {
 		type: SET_TAB,
@@ -31,6 +34,14 @@ export const getVenueInfo = () => async (dispatch) => {
 		dispatch(action)
 	}
 }
+
+// export const getVenueDetail = () => async (dispatch) => {
+// 	const res = await axios.get(`${baseUrl}/venue/info`)
+// 	if (res.data) {
+// 		const action = getSetVenueAction(res.data)
+// 		dispatch(action)
+// 	}
+// }
 
 export const getCheckinInfo = () => async (dispatch) => {
 	const res = await axios.get(`${baseUrl}/checkin/num`)

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { SET_SMS, SET_PHONE, SET_PASSWORD, SET_TOKEN, SET_VERIFY } from './actionType'
+import { SET_SMS, SET_PHONE, SET_PASSWORD, SET_CONFIRM, SET_TOKEN, SET_VERIFY } from './actionType'
 import baseUrl from '../../assets/constants/BaseUrl'
 
 
@@ -24,6 +24,13 @@ export const getSetPasswordAction = (data) => {
 	}
 }
 
+export const getSetConfirmAction = (data) => {
+	return {
+		type: SET_CONFIRM,
+		data: data
+	}
+}
+
 export const getSetTokenAction = (data) => {
 	return {
 		type: SET_TOKEN,
@@ -40,26 +47,21 @@ export const getSetVefifyAction = (data) => {
 
 
 export const sendSMS = (phone) => async (dispatch) => {
-	const res = await axios.post(`${baseUrl}/user/sms`, {
+	const res = await axios.get(`${baseUrl}/user/resetpassword`, {
 		phone: phone
 	})
-  if (res.data) {
-    const action = getSetSMSAction(res.data.code)
-    dispatch(action)
-  }
+  // if (res.data) {
+  //   const action = getSetSMSAction(res.data.code)
+  //   dispatch(action)
+  // }
 }
 
 
-export const passwordLoginAction = (phone, password) => async (dispatch) => {
-	const res = await axios.post(`${baseUrl}/user/user`, {
+export const passwordResetAction = (phone, code, password, confirm) => async (dispatch) => {
+	const res = await axios.put(`${baseUrl}/user/user`, {
 		phone: phone,
-    password: password
+		code: code,
+    password: password,
+		confirm: confirm
 	})
-  if (res.data) {
-    console.log(res.data.token)
-    const action = getSetTokenAction(res.data.token)
-		dispatch(action)
-		const action2 = getSetVefifyAction(1)
-    dispatch(action2)
-  }
 }

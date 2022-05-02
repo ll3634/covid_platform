@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { getSetPasswordAction, getSetPhoneAction, getSetSMSAction, sendSMS, codeLoginAction, getSetVefifyAction, getSetTokenAction } from './actionCreator'
+import { getSetPasswordAction, getSetPhoneAction, getSetSMSAction, sendSMS, codeLoginAction, getSetVefifyAction, getSetTokenAction, getSetAuthAction } from './actionCreator'
 
 import Report from './UI'
 
@@ -10,7 +10,8 @@ const mapState = (state) => {
 		password: state.login.password,
 		sms: state.login.sms,
 		token: state.login.token,
-		verified: state.login.verified
+		verified: state.login.verified,
+		auth: state.login.auth
 	}
 }
 
@@ -29,6 +30,12 @@ const mapDispatch = (dispatch) => {
 				dispatch(action)
 			}
 		},
+		setAuth(res) {
+			if (res) {
+				const action = getSetAuthAction(res)
+				dispatch(action)
+			}
+		},
 		testSMS(res) {
 			if (res) {
 				const action = getSetSMSAction(res)
@@ -39,8 +46,8 @@ const mapDispatch = (dispatch) => {
 			const action = sendSMS(phone)
 			dispatch(action)
 		},
-		codeLogin(phone, code) {
-			const action = codeLoginAction(phone, code)
+		codeLogin(phone, code, auth) {
+			const action = codeLoginAction(phone, code, auth)
 			dispatch(action)
 		},
 		setVerify(res) {

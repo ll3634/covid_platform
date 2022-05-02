@@ -25,10 +25,12 @@ const wait = (timeout) => {
 export default function App(props) {
    const [refreshing, setRefreshing] = useState(false)
    const [venue, setVenue] = useState()
+   const [dis, setDis] = useState(false)
 
    const onRefresh = useCallback(() => {
     setRefreshing(true)
     console.log('refreshing!!')
+    setDis(true)
     wait(2000).then(() => setRefreshing(false))
   }, [])
 
@@ -64,6 +66,7 @@ export default function App(props) {
            <ScrollView style={{height:'100%', marginBottom:'20%'}}  refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }>
+                  {dis?(<View style={styles.card}><Text style={{ fontSize: 15 }}>Tandon is the best</Text></View>):(null)}
                 <Text></Text>
                <Card></Card>
                <Card></Card>

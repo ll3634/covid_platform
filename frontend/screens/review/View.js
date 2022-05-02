@@ -27,6 +27,10 @@ export default function App(props) {
 
    const onRefresh = useCallback(() => {
     setRefreshing(true)
+    const res = await axios.get(`${baseUrl}/review`)
+			console.log(res.data)
+			setVenue([...res.data])
+			console.log(venue)
 
     console.log('refreshing!!')
     wait(2000).then(() => setRefreshing(false))

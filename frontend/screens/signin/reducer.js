@@ -1,11 +1,12 @@
-import { SET_SMS, SET_PHONE, SET_PASSWORD, SET_TOKEN, SET_VERIFY } from './actionType'
+import { SET_SMS, SET_PHONE, SET_PASSWORD, SET_TOKEN, SET_VERIFY, SET_AUTH } from './actionType'
 
 const defaultState = {
 	phone: null,
   password: null,
   sms: 1111,
   token: null,
-  verified: 0
+  verified: 0,
+  auth: 1
 }
 
 export default function reducer (state = defaultState, action) {
@@ -15,7 +16,8 @@ export default function reducer (state = defaultState, action) {
       password: state.password,
       sms: action.data,
       token: state.token,
-      verified: state.verified
+      verified: state.verified,
+      auth: state.auth
     }
     return newState
   }
@@ -25,7 +27,8 @@ export default function reducer (state = defaultState, action) {
       password: state.password,
       sms: state.sms,
       token: state.token,
-      verified: state.verified
+      verified: state.verified,
+      auth: state.auth
     }
     return newState
   }
@@ -35,7 +38,19 @@ export default function reducer (state = defaultState, action) {
       password: action.data,
       sms: state.sms,
       token: state.token,
-      verified: state.verified
+      verified: state.verified,
+      auth: state.auth
+    }
+    return newState
+  }
+  if (action.type === SET_AUTH) {
+    const newState = {
+      phone: state.phone,
+      password: state.password,
+      sms: state.sms,
+      token: state.token,
+      verified: state.verified,
+      auth: action.data
     }
     return newState
   }
@@ -45,7 +60,8 @@ export default function reducer (state = defaultState, action) {
       password: state.password,
       sms: state.sms,
       token: action.data,
-      verified: state.verified
+      verified: state.verified,
+      auth: state.auth
     }
     return newState
   }
@@ -56,7 +72,8 @@ export default function reducer (state = defaultState, action) {
       password: state.password,
       sms: state.sms,
       token: state.token,
-      verified: action.data
+      verified: action.data,
+      auth: state.auth
     }
     return newState
   }

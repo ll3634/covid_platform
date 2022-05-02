@@ -97,7 +97,7 @@ const TabNavigator = () => {
 
 			<Tab.Screen
 				name="REPORT"
-				component={Report}
+				component={Trial}
 				options={{
 					tabBarIcon: ({ color, size }) => (
 						<View style={styles.tabBar}>
@@ -114,7 +114,7 @@ const TabNavigator = () => {
 
 			<Tab.Screen
 				name="TRIAL"
-				component={Trial}
+				component={Report}
 				options={{
 					tabBarIcon: ({ color, size }) => (
 						<View style={styles.tabBar}>

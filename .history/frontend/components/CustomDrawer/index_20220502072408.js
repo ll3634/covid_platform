@@ -1,0 +1,1 @@
+drawerContent={props => <CustomDrawer {...props} />}

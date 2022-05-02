@@ -1,4 +1,4 @@
-import { SET_CATEGORIES, SET_TAB, SET_CHECKIN } from './actionType'
+import { SET_CATEGORIES, SET_TAB, SET_CHECKIN, SET_VENUE } from './actionType'
 
 const defaultState = {
 	categories: [],
@@ -7,7 +7,15 @@ const defaultState = {
 		"case_num": 0,
 		"check_num": 0,
 		"venue_id": 0
-		}) 
+		}),
+	venue: new Array(100).fill({
+		"capacity": 0,
+		"created_at": '',
+		"end_hour": '09:00:00',
+		"id": 0,
+		"start_hour": '09:00:00',
+		"venue_id": 0
+		})
 }
 
 export default function reducer (state = defaultState, action) {
@@ -16,7 +24,8 @@ export default function reducer (state = defaultState, action) {
 		const newState = {
 			categories: [...action.data],
 			tab: state.tab,
-			checkin: state.checkin
+			checkin: state.checkin,
+			venue: state.venue
 		}
 		return newState
 	}
@@ -25,7 +34,8 @@ export default function reducer (state = defaultState, action) {
 		const newState = {
 			categories: [...state.categories],
 			tab: action.data,
-			checkin: state.checkin
+			checkin: state.checkin,
+			venue: state.venue
 		}
 		return newState
 	}
@@ -33,7 +43,17 @@ export default function reducer (state = defaultState, action) {
 		const newState = {
 			categories: [...state.categories],
 			tab: state.tab,
-			checkin: action.data
+			checkin: action.data,
+			venue: state.venue
+		}
+		return newState
+	}
+	if (action.type === SET_VENUE) {
+		const newState = {
+			categories: [...state.categories],
+			tab: state.tab,
+			checkin: state.checkin,
+			venue: action.data
 		}
 		return newState
 	}

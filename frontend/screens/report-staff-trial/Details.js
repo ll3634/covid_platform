@@ -17,16 +17,69 @@ function Details (props) {
 	}
 
 	return (
-		<ScrollView>
-			<View>
-				<Text> {data.item.name}</Text>
-				<Text> {data.item.description}</Text>
+		<View>
+			<ScrollView style={{height:'100%', padding: '5%' }}>
+			<View >
+				<Text
+					style={{
+						fontSize: 15,
+						fontWeight: 'bold',
+						color: (255, 255, 255, 180),
+						margin: 5,
+						left: -10
+					}}
+				>
+					Name:
+				</Text>
+				<Text
+					style={{ fontWeight: 'bold', fontSize: 22, paddingBottom: '5%' }}
+				>
+					{' '}
+					{data.item.name}
+				</Text>
+				<Text
+					style={{
+						fontSize: 15,
+						fontWeight: 'bold',
+						color: (255, 255, 255, 180),
+						margin: 5,
+						left: -10, 
+						borderBottomEndRadius:20,
+						
+					}}
+				>
+					Description:
+				</Text>
+				<Text style={{paddingVertical:10,backgroundColor:'white', padding:'5%'}}> {data.item.description}</Text>
+				<Text
+					style={{
+						fontSize: 15,
+						fontWeight: 'bold',
+						color: (255, 255, 255, 180),
+						margin: 5,
+						left: -10,
+						paddingTop:'5%',
+						
+					}}
+				>
+					Created at:
+				</Text>
 				<Text> {data.item.created_at}</Text>
 			</View>
-			<View>
+			
+		</ScrollView>
+		<View style={{		position:'absolute', bottom:'10%', width:'100%'}}>
 				<Button
 					icon="update"
 					mode="contained"
+					style={{
+						backgroundColor: 'black',
+						color: 'white',
+						fontSize: '20px',
+						padding: '2%',
+						borderRadius: '5px',
+						marginHorizontal: '5%'
+					}}
 					onPress={() => props.navigation.navigate('Edit', { data: data })}
 				>
 					Edit Venue
@@ -34,19 +87,29 @@ function Details (props) {
 				<Button
 					icon="delete"
 					mode="contained"
+					style={{
+						backgroundColor: 'black',
+						color: 'white',
+						fontSize: '20px',
+						padding: '2%',
+						borderRadius: '5px',
+						margin: '3%'
+					}}
 					onPress={() => handleDelete(props.route.params.data.item)}
 				>
 					Delete Venue
 				</Button>
 				<Button
 					icon="update"
+					style={{ height: 50, position: 'fixed' }}
 					mode="contained"
 					onPress={() => handleAdd()}
 				>
 					Apply Rule
 				</Button>
 			</View>
-		</ScrollView>
+		</View>
+		
 	)
 }
 

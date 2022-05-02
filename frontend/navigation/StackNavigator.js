@@ -109,11 +109,10 @@ function RouteApp() {
 			</SafeAreaView>
 		)
 	}
-//change it here!!!!!!!!
 	return (
 		<AuthContext.Provider value={authContext}>
 			<NavigationContainer>
-				{loginState.userToken === null ? (
+				{loginState.userToken !== null ? (
 					<Stack.Navigator initialRouteName="Home">
 						<Stack.Screen
 							name="Home"

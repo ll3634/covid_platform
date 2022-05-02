@@ -9,10 +9,12 @@ import StarRating from 'react-native-star-rating';
 
 const Create = (props) => {
   const [text, setText] = React.useState("");
+  //这个是review内容
   const [venues, setVenues] = React.useState("")
   const [selectedValue, setSelectedValue] = React.useState("None");
+  //这个是venue name
   const [loaded, setLoaded] = React.useState(false);
-  const [star, setRating] = React.useState(3.5)
+  const [star, setRating] = React.useState(0)
 
   const onSubmit = () =>{
       console.log("submitted!!")

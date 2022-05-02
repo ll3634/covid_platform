@@ -28,6 +28,7 @@ export default function App(props) {
 
    const onRefresh = useCallback(() => {
     setRefreshing(true)
+
     console.log('refreshing!!')
     wait(2000).then(() => setRefreshing(false))
   }, [])

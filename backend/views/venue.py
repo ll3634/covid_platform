@@ -4,7 +4,7 @@ from flask import Blueprint, request, jsonify, current_app
 from flask_restful import Api, Resource
 from utils.authorization import login_required
 from models.venue import db, Venue, Category, VenueInfo
-from schemas.venue import venue_schema, venues_schema
+from schemas.venue import venue_schema, venues_schema, venuesinfo_schema
 
 from datetime import time
 
@@ -46,6 +46,13 @@ class VenuesResource(Resource):
         # current_app.sio.emit('NewVenue', data=data, room='1')
         
         return venue_schema.jsonify(venue)
+    
+    
+class VenuesInfoResource(Resource):
+    def get(self):
+        venues = VenueInfo.query.all()
+        results = venuesinfo_schema.dump(venues)
+        return jsonify(results)
 
 
 class VenueResource(Resource):
@@ -74,6 +81,7 @@ class VenueResource(Resource):
 
 
 api.add_resource(VenuesResource, '/', methods = ['GET', 'POST'])
+api.add_resource(VenuesInfoResource, '/info', methods = ['GET'])
 api.add_resource(VenueResource, '/<id>', methods = ['GET', 'PUT', 'DELETE'])
 
 

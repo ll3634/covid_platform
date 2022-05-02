@@ -11,7 +11,8 @@ import Detail from '../screens/checkin/View'
 import Form from '../screens/form/View'
 import Uploader from '../screens/upload/View'
 import Notification from '../screens/notification/View'
-import Home from './TabNavigator'
+import Home from './UserTabNavigator'
+import HomeVenue from './VenueTabNavigator'
 import Report  from '../screens/login/View'
 import Signin from '../screens/signin/View'
 import Password from '../screens/password/View'
@@ -23,7 +24,8 @@ function RouteApp() {
 	const initialLoginState = {
 		isLoading: true,
 		phone: null,
-		userToken: null
+		userToken: null,
+		userAuth: null
 	}
 
 	const loginReducer = (prevState, action) => {
@@ -32,6 +34,7 @@ function RouteApp() {
 				return {
 					...prevState,
 					userToken: action.token,
+					userAuth: action.auth,
 					isLoading: false,
 				}
 			case 'LOGIN':
@@ -39,21 +42,24 @@ function RouteApp() {
 					...prevState,
 					isLoading: false,
 					phone: action.id,
-					userToken: action.token
+					userToken: action.token,
+					userAuth: action.auth
 				}
 			case 'LOGOUT':
 				return {
 					...prevState,
 					isLoading: false,
 					phone: null,
-					userToken: null
+					userToken: null,
+					userAuth: null
 				}
 			case 'RESET':
 				return {
 					...prevState,
 					isLoading: false,
 					phone: action.id,
-					userToken: action.token
+					userToken: action.token,
+					userAuth: action.auth
 				}
 		}
 	}
@@ -62,23 +68,27 @@ function RouteApp() {
 
 	const authContext = useMemo(
 		() => ({
-			signIn: async(phone, password, token) => {
+			signIn: async(phone, password, token, auth) => {
 				// let userToken = null
 				// if (phone === '123' && password === '123') {
 				// 	userToken = 'test'
 				let userToken = token
+				let userAuth = auth.toString()
 					try {
 						await AsyncStorage.setItem('userToken', userToken)
+						await AsyncStorage.setItem('userAuth', userAuth)
+						console.log('hi', userAuth)
 					} catch(e) {
 						console.log(e)
 					}
 				// }
-				console.log('login token', userToken)
-				dispatch({ type: 'LOGIN', id: phone, token: userToken })
+				console.log('login token', userToken, userAuth)
+				dispatch({ type: 'LOGIN', id: phone, token: userToken, auth: userAuth })
 			},
 			signOut: async() => {
 				try {
 					await AsyncStorage.removeItem('userToken')
+					await AsyncStorage.removeItem('userAuth')
 				} catch(e) {
 					console.log(e)
 				}
@@ -86,6 +96,15 @@ function RouteApp() {
 			},
 			signUp: () => {
 			},
+			getAuth: async() => {
+				let userAuth = null
+				try {
+					userAuth = await AsyncStorage.getItem('userAuth')
+				} catch(e) {
+					console.log(e)
+				}
+				return userAuth
+			}
 		}),
 		[]
 	)
@@ -93,27 +112,31 @@ function RouteApp() {
 	useEffect(() => {
 		setTimeout(async() => {
 			let getToken = null
+			let getAuth = null
 			try {
 				getToken = await AsyncStorage.getItem('userToken')
+				getAuth = await AsyncStorage.getItem('userAuth')
+				console.log('---', getToken, getAuth)
 			} catch(e) {
 				console.log(e)
 			}
-			dispatch({ type: 'RETRIEVE_TOKEN', token: getToken })
+			dispatch({ type: 'RETRIEVE_TOKEN', token: getToken, auth: getAuth })
 		}, 1000)
 	}, [])
 
-	if (loginState.isLoading) {
-		return (
-			<SafeAreaView>
-				<ActivityIndicator size="large" color="grey" />
-			</SafeAreaView>
-		)
-	}
-//change it here!!!!!!!!
+	// if (loginState.isLoading) {
+	// 	return (
+	// 		<SafeAreaView>
+	// 			<ActivityIndicator size="large" color="grey" />
+	// 		</SafeAreaView>
+	// 	)
+	// }
+
 	return (
 		<AuthContext.Provider value={authContext}>
 			<NavigationContainer>
-				{loginState.userToken === null ? (
+				{loginState.userToken !== null ? (
+					loginState.userAuth === '1' ? (
 					<Stack.Navigator initialRouteName="Home">
 						<Stack.Screen
 							name="Home"
@@ -146,7 +169,40 @@ function RouteApp() {
 							options={{ headerShown: true }}
 						/>
 					</Stack.Navigator>
-				) : (
+					) : (
+						<Stack.Navigator initialRouteName="Home">
+						<Stack.Screen
+							name="Home"
+							component={HomeVenue}
+							options={{ headerShown: true }}
+						/>
+						<Stack.Screen
+							name="List"
+							component={List}
+							options={{ headerShown: false }}
+						/>
+						<Stack.Screen
+							name="Detail"
+							component={Detail}
+							options={{ headerShown: false }}
+						/>
+						<Stack.Screen
+							name="Form"
+							component={Form}
+							options={{ headerShown: false }}
+						/>
+						<Stack.Screen
+							name="Uploader"
+							component={Uploader}
+							options={{ headerShown: false }}
+						/>
+						<Stack.Screen
+							name="Notification"
+							component={Notification}
+							options={{ headerShown: true }}
+						/>
+					</Stack.Navigator>
+				)) : (
 					<Stack.Navigator initialRouteName="Start">
 						<Stack.Screen
 							name="Start"

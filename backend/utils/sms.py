@@ -19,8 +19,8 @@ def send_sms(phone):
                               # to='+12184151914' 
                           )
     print(message.sid)
-    return 1, code
+    return code
     
   except Exception as e:
     print('Failed to use API: '+ str(e))
-    return 0, code
+    return 0

@@ -9,6 +9,7 @@ import {
 import FormLabel from '../../components/FormLabel'
 import FormInput from '../../components/FormInput'
 import FormButton from '../../components/FormButton'
+import SingleCheckbox from '../../components/SingleCheckbox'
 import tw from 'twrnc'
 
 import Logo from '../../assets/images/logo.svg'
@@ -73,12 +74,17 @@ const Signin = (props) => {
 						></FormInput>
 						{/* <Text>{props.password}</Text> */}
 					</FormInputGroup>
+					<SingleCheckbox
+						selectionMode={props.auth}
+						optionlist={['User', 'Venue Operator']}
+						onSelectSwitch={() => {props.setAuth(props.auth === 1 ? 2 : 1)}}
+					/>
 					{!props.verified ? (
 						<FormButton
 							primary={true}
 							text='Verify'
 							onPress={() => {
-								props.passwordLogin(props.phone, props.password)
+								props.passwordLogin(props.phone, props.password, props.auth)
 							}}
 						></FormButton>
 					) : (
@@ -87,7 +93,7 @@ const Signin = (props) => {
 							text="Login"
 							onPress={() => {
 								props.setVerify(0)
-								signIn(props.phone, props.password, props.token)
+								signIn(props.phone, props.password, props.token, props.auth)
 							}}
 						></FormButton>
 					)}

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { SET_CATEGORIES, SET_TAB, SET_CHECKIN } from './actionType'
+import { SET_CATEGORIES, SET_TAB, SET_CHECKIN, SET_VENUE } from './actionType'
 import baseUrl from '../../assets/constants/BaseUrl'
 
 
@@ -10,7 +10,12 @@ export const getSetCategoriesAction = (data) => {
 	}
 }
 
-// export const getSetAction = (data) => {
+export const getSetVenueAction = (data) => {
+	return {
+		type: SET_VENUE,
+		data: data
+	}
+}
 	
 
 export const getSetTabAction = (data) => {
@@ -35,13 +40,13 @@ export const getVenueInfo = () => async (dispatch) => {
 	}
 }
 
-// export const getVenueDetail = () => async (dispatch) => {
-// 	const res = await axios.get(`${baseUrl}/venue/info`)
-// 	if (res.data) {
-// 		const action = getSetVenueAction(res.data)
-// 		dispatch(action)
-// 	}
-// }
+export const getVenueDetail = () => async (dispatch) => {
+	const res = await axios.get(`${baseUrl}/venue/info`)
+	if (res.data) {
+		const action = getSetVenueAction(res.data)
+		dispatch(action)
+	}
+}
 
 export const getCheckinInfo = () => async (dispatch) => {
 	const res = await axios.get(`${baseUrl}/checkin/num`)

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { SET_SMS, SET_PHONE, SET_PASSWORD, SET_TOKEN, SET_VERIFY } from './actionType'
+import { SET_SMS, SET_PHONE, SET_PASSWORD, SET_TOKEN, SET_VERIFY, SET_AUTH } from './actionType'
 import baseUrl from '../../assets/constants/BaseUrl'
 
 
@@ -38,6 +38,13 @@ export const getSetVefifyAction = (data) => {
 	}
 }
 
+export const getSetAuthAction = (data) => {
+	return {
+		type: SET_AUTH,
+		data: data
+	}
+}
+
 
 export const sendSMS = (phone) => async (dispatch) => {
 	const res = await axios.post(`${baseUrl}/user/sms`, {
@@ -50,10 +57,11 @@ export const sendSMS = (phone) => async (dispatch) => {
 }
 
 
-export const passwordLoginAction = (phone, password) => async (dispatch) => {
+export const passwordLoginAction = (phone, password, auth) => async (dispatch) => {
 	const res = await axios.post(`${baseUrl}/user/user`, {
 		phone: phone,
-    password: password
+    password: password,
+		auth: auth
 	})
   if (res.data) {
     console.log(res.data.token)

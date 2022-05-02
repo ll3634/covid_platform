@@ -2,7 +2,8 @@ import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from utils.crypt import pwd
-from utils import sms
+# from utils import sms
+from tasks.sms import tasks
 # from cache.user import save_token, clear_token, get_user_id_by_token
 from cache import cache
 
@@ -26,12 +27,13 @@ class SendMessageApi(Resource):
         args = sms_parser.parse_args()
         phone = args.get('phone')
         # phone = request.json['phone']
-        
-        ret, code = sms.send_sms(phone)
+        # ret, code = sms.send_sms(phone)
+        result = tasks.send_sms.delay(phone)
+        code =result.get()
         # ret = 1
         # code = '1234'
         print(phone, code)
-        if ret == 1: 
+        if code != 0: 
             cache.set(phone, code, timeout=3000)
             return make_response(jsonify({'code': code}), 200)
         else:
@@ -92,8 +94,10 @@ class ResetPasswordApi(Resource):
             
         user = User.query.filter(User.phone == phone).first()
         if user:
-            ret, sms_code = sms.send_sms(phone)
-            if ret == 1: 
+            # ret, sms_code = sms.send_sms(phone)
+            result = tasks.send_sms.delay(phone)
+            sms_code =result.get()
+            if sms_code != 0: 
                 cache.set(phone, sms_code, timeout=3000)
                 return make_response(jsonify({'code': sms_code}), 200)
             else:

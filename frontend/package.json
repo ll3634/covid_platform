@@ -25,6 +25,7 @@
 		"@react-native-community/netinfo": "^8.2.0",
 		"@react-native-picker/picker": "2.2.1",
 		"@react-navigation/bottom-tabs": "^6.2.0",
+		"@react-navigation/drawer": "^6.4.1",
 		"@react-navigation/native": "^6.0.2",
 		"@react-navigation/native-stack": "^6.1.0",
 		"aws-amplify": "^4.3.17",

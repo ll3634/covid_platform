@@ -1,11 +1,26 @@
-import React, { useEffect } from 'react'
-import { Image, StyleSheet, Text, View, FlatList, jsonify } from 'react-native'
+import React, { useEffect, useState, useCallback} from 'react'
+import { Image, StyleSheet, Text, View, FlatList, jsonify, ScrollView, RefreshControl} from 'react-native'
 import { Card, TextInput, Button, FAB } from 'react-native-paper'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import baseUrl from '../../assets/constants/BaseUrl'
 
+const wait = (timeout) => {
+    return new Promise((resolve) => setTimeout(resolve, timeout))
+  }
+
 App = (props) => {
+	const [refreshing, setRefreshing] = useState(false)
+
+
+	const onRefresh = useCallback(() => {
+		setRefreshing(true)
+		console.log('refreshing!!')
+		props.getVenuesInfo()
+		wait(2000).then(() => setRefreshing(false))
+	  }, [])
+
+	  
 	useEffect(() => {
 		props.getVenuesInfo()
 	}, [])
@@ -16,26 +31,31 @@ App = (props) => {
 
 	const renderData = (item) => {
 		return (
-			<Card style={styles.card}>
-				<Text style={styles.title} onPress={() => clickedItem(item)}>
+			<Card style={styles.card} onPress={() => clickedItem(item)}>
+				<Text style={styles.title} >
 					{item.item.name}
 				</Text>
-				<Text>{item.item.description}</Text>
-				<Text>{props.venues.venues.length}</Text>
+				<Text style={{color:'grey'}}>{'\t'}{item.item.description}</Text>
 			</Card>
 		)
 	}
 
 	return (
 		<View style={styles.container}>
+		
 			<FlatList
+			style={{height:'100%', marginBottom:'20%'}}
 				data={props.venues.venues}
 				renderItem={(data) => {
 					return renderData(data)
 				}}
 				keyExtractor={(data) => `${data.id}`}
+				refreshControl={
+					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
 			/>
 
+		
+			
 			<FAB
 				style={styles.fab}
 				small={false}
@@ -93,7 +113,10 @@ const styles = StyleSheet.create({
 		padding: 20
 	},
 	title: {
-		fontSize: 17
+		fontSize: 17,
+		fontWeight:'bold',
+		marginBottom:5,
+		textAlign:'center'
 	},
 	fab: {
 		position: 'absolute',

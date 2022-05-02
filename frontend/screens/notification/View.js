@@ -41,9 +41,9 @@ export default function Start(props) {
 			<ScrollView style={styles.title}>
 				{messages.map((item, index) => {
 					return (
-						<View key={index} style={styles.item} >
-							<Text style={styles.itemText}>A confirmed case (user_id: {item.description})</Text>
-							<Text style={styles.itemText}>checked in your liked venue (venue_id: {item.name}).</Text>
+						<View key={index} style={[styles.item, {backgroundColor:'#F91E1E'}]} >
+							<Text style= {{textAlign:'center', color:'yellow', fontWeight:'bold',fontSize:20,textDecorationLine: 'underline'}} >Alert</Text>
+							<Text style={styles.itemText}>A confirmed case checked in your liked venue (venue_id: {item.name}).</Text>
 						</View>
 					)
 				})}
@@ -66,16 +66,15 @@ const styles = StyleSheet.create({
 		// flexDirection: 'column',
 		// justifyContent: 'space-between',
 		// // alignItems: 'center',
-		// marginBottom: 20
-		paddingVertical: 20,
-		paddingHorizontal: 20,
+		marginBottom: '5%',
+		padding:'5%',
+		paddingBottom:'5%',
+		
 		marginBottom: 5,
 		justifyContent: 'space-between',
 		alignContent: 'center',
 		flexDirection: 'column',
-		backgroundColor: '#fff',
 		width: '95%',
-		height: 95,
 		alignSelf: 'center',
 		borderRadius: 10,
 		shadowColor: '#ccc',
@@ -86,8 +85,9 @@ const styles = StyleSheet.create({
 	},
 	itemText: {
 		fontSize: 16,
-		color: '#000000',
-		marginHorizontal: 10
+		color: 'white',
+		marginHorizontal: 10,
+		marginBottom:'5%'
 	},
 	content: {
 		flex: 1,

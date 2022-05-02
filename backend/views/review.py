@@ -1,12 +1,39 @@
 import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
+from flask_restful import Api, Resource
 from flask import Blueprint, jsonify
 from models.review import db, Review
 from schemas.review import review_schema, reviews_schema
 
 
 blue = Blueprint('review', __name__)
+api = Api(blue)
+
+class ReviewsResource(Resource):
+    # @login_required
+    def get(self):
+        reviews = Review.query.all()
+        results = reviews_schema.dump(reviews)
+        return jsonify(results)
+
+
+##'user_id', 'venue_id', 'review'
+class ReviewResource(Resource):
+    def get(self, id):
+        review = Review.query.get(id)
+        result = review_schema.jsonify(review)
+        return result
+    # def put(self, id):
+    #     review = Review.query.get(id)
+    #     user_id = request.json['name']
+    #     description = request.json['description']  
+    #     venue.name = name
+    #     venue.description = description
+    #     db.session.commit()
+    #     result = venue_schema.jsonify(venue)
+    #     return result
+
+api.add_resource(ReviewsResource, '/', methods = ['GET'])
 
 @blue.route('/get', methods=['GET'])
 def get_reviews():

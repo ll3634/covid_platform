@@ -23,73 +23,60 @@ const wait = (timeout) => {
 
 export default function App(props) {
 	const [refreshing, setRefreshing] = useState(false)
-	const [venue, setVenue] = useState([])
+	const [venue, setVenue] = useState()
+    const [loading, setloading] = useState(false)
 
    const onRefresh = useCallback(() => {
     setRefreshing(true)
-    const res = await axios.get(`${baseUrl}/review`)
-			console.log(res.data)
-			setVenue([...res.data])
-			console.log(venue)
-
-    console.log('refreshing!!')
     wait(2000).then(() => setRefreshing(false))
   }, [])
 
 	useEffect(async() => {
 		const res = await axios.get(`${baseUrl}/review`)
-			console.log(res.data)
-			setVenue([...res.data])
-			console.log(venue)
-	}, [])
+            let reviews = []
+			for (let i = 0; i < res.data.length; i++){
+                reviews[i] = res.data[i]['review']
+            }
+			setVenue(reviews)
+            setloading(true)
+
+	}, [refreshing])
 	const Card = (data) => {
 		return (
 			<View style={styles.card}>
 				<Text style={{ fontSize: 15 }}>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
-					tincidunt imperdiet lacus, non viverra massa elementum vel. Mauris
-					maximus augue elementum, semper mi eget, cursus nisl. Proin cursus ex
-					a luctus malesuada. Quisque egestas luctus feugiat. Suspendisse ante
-					sapien, scelerisque eget laoreet ac, venenatis ut orci. Nullam ac nunc
-					et metus scelerisque congue sit amet at leo. Proin varius, mauris nec
-					aliquam elementum, mi lorem rhoncus ex, ut consectetur mi lectus
-					rutrum dui. Nunc pharetra mauris vitae maximus varius.
+					{data}
 				</Text>
 			</View>
 		)
 	}
 
-	const renderData = (item) => {
-		return (
-			<TouchableOpacity style={styles.card} onPress={() => clickedItem(item)}>
-				<Text style={{color:'grey'}}>{'\t'}{item.review}</Text>
-			</TouchableOpacity>
-		)
-	}
-	return (
+	const renderReviews=() => {
+        return 
+    }
+    return(
+
 		<View style={styles.container}>
-			<View style={{ borderBottomColor: 'grey', borderBottomWidth: 1 }}></View>
-			{/* <Text>{venue[0]}</Text> */}
-			{venue.map((item) => {
-				return (
-					<View style={styles.card}>
-
-						<Text style={{ fontSize: 15 }}>
-						{'\t'}{item.review}
-						</Text>
-					</View>
-				)
-			})}
-
-
-			<View style={styles.addReview}>
-				<TouchableOpacity
-					onPress={() => props.navigation.navigate('Create New Review')}
-				>
-					<Icon name="add-circle-sharp" color="#007aff" size={70} />
-				</TouchableOpacity>
-			</View>
-		</View>
+           <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1 }}>
+              
+           </View>
+           <ScrollView style={{height:'100%', marginBottom:'20%'}}  refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }>
+               {loading?(venue.map((ven,id) =><View key={id} style={styles.card}>
+				<Text style={{ fontSize: 15 }}>
+					{ven}
+				</Text>
+			</View>)):(null)}
+    
+              
+           </ScrollView>
+           <View style={styles.addReview}>
+                   <TouchableOpacity onPress={() => props.navigation.navigate('Create New Review')}>
+                       <Icon name="add-circle-sharp" color="black" size={60} />
+                   </TouchableOpacity>
+               </View>
+       </View>
 	)
 }
 
@@ -97,7 +84,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		justifyContent: 'center',
-		alignItems: 'center',
+
 		// backgroundColor: '#F5FCFF',
 	},
 	addReview: {

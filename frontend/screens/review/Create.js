@@ -83,7 +83,7 @@ const Create = (props) => {
 					const res = await axios.post(`${baseUrl}/review/review`, {
 						venue_id: 1,
 						review: text
-					})
+					}).then(props.navigation.navigate('Reviews'))
 				}}
 				style={styles.button}
 			>
